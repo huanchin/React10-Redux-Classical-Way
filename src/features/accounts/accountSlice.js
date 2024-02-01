@@ -1,0 +1,77 @@
+// 1) initial state
+const initialStateAccount = {
+  balance: 0,
+  loan: 0,
+  loanPurpose: "",
+};
+
+// 2) Reducer
+export default function accountReducer(state = initialStateAccount, action) {
+  switch (action.type) {
+    case "account/deposite":
+      return {
+        ...state,
+        balance: state.balance + action.payload,
+        isLoading: false,
+      };
+    case "account/withdraw":
+      return { ...state, balance: state.balance - action.payload };
+    case "account/requestLoan":
+      if (state.loan > 0) return state;
+
+      return {
+        ...state,
+        loan: action.payload.amount,
+        loanPurpose: action.payload.purpose,
+        balance: state.balance + action.payload.amount,
+      };
+    case "account/payLoan":
+      return {
+        ...state,
+        loan: 0,
+        loanPurpose: "",
+        balance: state.balance - state.loan,
+      };
+    case "account/convertingCurrency":
+      return {
+        ...state,
+        isLoading: true,
+      };
+    default:
+      return state;
+  }
+}
+
+// 3) Action creator: function return actions
+export function deposite(amount, currency) {
+  if (currency === "USD") return { type: "account/deposite", payload: amount };
+
+  // 9) need middleware(thunk) for API call (async function)
+  return async function (dispatch, getState) {
+    dispatch({ type: "account/convertingCurrency" });
+    // API call
+    const res = await fetch(
+      `https://api.frankfurter.app/latest?amount=${amount}&from=${currency}&to=USD`
+    );
+    const data = await res.json();
+    const converted = data.rates.USD;
+    // return action
+    // return { type: "account/deposite", payload: converted }; ------> not return action but dispatch directly
+    dispatch({ type: "account/deposite", payload: converted });
+  };
+}
+
+export function withdraw(amount) {
+  return { type: "account/withdraw", payload: amount };
+}
+
+export function requestLoan(amount, purpose) {
+  return {
+    type: "account/requestLoan",
+    payload: { amount, purpose },
+  };
+}
+
+export function payLoan() {
+  return { type: "account/payLoan" };
+}
