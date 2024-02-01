@@ -1,5 +1,8 @@
 # Intro to Redux
 
+![theory-slides](https://github.com/huanchin/React10-Redux-Classical-Way/assets/19501051/373a0f20-9248-45ad-afd7-4991370ee114)
+
+
 This project is built to demostrate how redux works with react
 
 ## Step 1 initial state
