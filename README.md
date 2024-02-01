@@ -16,7 +16,7 @@ function return action
 
 ## Step 4 Create Redux store
 
-### npm i redux
+###npm i redux
 
 ## Step 5 Connect redux store with react by adding Provider
 
