@@ -16,21 +16,21 @@ function return action
 
 ## Step 4 Create Redux store
 
-###npm i redux
+### `npm i redux`
 
 ## Step 5 Connect redux store with react by adding Provider
 
-### npm i react-redux
+### `npm i react-redux`
 
 ## Step 6 in React, we get access to the state by using the useSelector hook
 
 useSelector creates a subscription to the store
 
-### const customer = useSelector((state) => state.customer.fullName);
+### `const customer = useSelector((state) => state.customer.fullName);`
 
 ## Step 7 in React, we get access to the dispatch function by using the useDispatch hook
 
-### const dispatch = useDispatch();
+### `const dispatch = useDispatch();`
 
 ## Step 8 need middleware(thunk) for API call (async function)
 
